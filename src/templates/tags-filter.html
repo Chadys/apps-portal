@@ -1,0 +1,36 @@
+<div class="container">
+    <button id="demo-menu-{{ selected_environment_id }}"
+            class="mdl-load mdl-button mdl-js-button mdl-button--primary">
+        <i class="material-icons">add</i> Add filter
+    </button>
+
+    <ul class="mdl-load mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+        for="demo-menu-{{ selected_environment_id }}">
+        {% for tag in available_tags %}
+            <li class="mdl-menu__item">
+                <a class="menu-link"
+                   href="{% url "apps_library:home" %}?environment={{ selected_environment_id }}&tag={{ tag }}{% for selected_tag in selected_tags %}&tag={{ selected_tag }}{% endfor %}">
+                    {{ tag }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="container-center">
+    {% for tag in selected_tags %}
+        <span class="mdl-chip mdl-chip--deletable">
+            <a href="{% url "apps_library:home" %}?environment={{ selected_environment_id }}{% for selected_tag in selected_tags %}{% if selected_tag != tag %}&tag={{ selected_tag }}{% endif %}{% endfor %}">
+                <span class="mdl-chip__text">{{ tag }}</span>
+                <button type="button" class="mdl-chip__action"><i class="material-icons">cancel</i></button>
+            </a>
+        </span>
+    {% endfor %}
+</div>
+
+<script>
+    var elems = document.body.getElementsByClassName("mdl-load");
+    for (let item of elems) {
+        componentHandler.upgradeElement(item);
+    }
+</script>

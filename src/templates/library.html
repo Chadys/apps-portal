@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ site_name }}</title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.amber-indigo.min.css" />
+        <link rel="stylesheet" href="{% static "styles.css" %}" />
+        <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+        <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="container-center">
+            <img class="img-title" src="{% static 'favicon.ico' %}" alt="logo"/>
+            <h1 class="font-title">{{ site_name }}</h1>
+        </div>
+
+        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+            <div class="mdl-tabs__tab-bar">
+                {% for environment in environments %}
+                    <a href="#env-{{ environment.name }}"
+                       class="mdl-tabs__tab {% if environment.id == selected_environment_id %}is-active {% endif %}">
+                        {{ environment.name }}
+                    </a>
+                {% endfor %}
+            </div>
+            {% for environment in environments %}
+                <div class="mdl-tabs__panel {% if environment.id == selected_environment_id %}is-active {% endif %}"
+                     id="env-{{ environment.name }}">
+
+                    <div hx-get="{% url "apps_library:deployments-list" selected_environment=environment.id %}?{% for tag in selected_tags %}&tag={{ tag }}{% endfor %}"
+                         hx-swap="innerHTML"
+                         hx-trigger="intersect"
+                    >
+                        <div class="container">
+                            <div class="mdl-spinner mdl-js-spinner is-active"></div>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>

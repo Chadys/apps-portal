@@ -1,0 +1,9 @@
+django[argon2]
+psycopg2-binary
+environs[django]
+django-filter
+django-cors-headers
+django-csp
+django-auth-ldap
+sentry_sdk
+pillow

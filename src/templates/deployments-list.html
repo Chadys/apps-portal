@@ -1,0 +1,18 @@
+{% include "tags-filter.html" %}
+
+<div class="container">
+    {% for deployment in deployments %}
+        {% if deployment.application.icon %}
+            <a href="{{ deployment.url }}">
+                <div class="app-card mdl-card mdl-shadow--2dp"  style="background-image: url({{ deployment.application.icon.url }});">
+                    <div class="mdl-card__title mdl-card--expand"></div>
+                    <div class="mdl-card__actions">
+                        <span class="app-card__appname">{{ deployment.application.name }}</span>
+                        <div class="mdl-layout-spacer"></div>
+                        <i class="material-icons">forward</i>
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+    {% endfor %}
+</div>
