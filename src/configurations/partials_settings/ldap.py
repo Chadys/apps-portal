@@ -17,8 +17,9 @@ AUTH_LDAP_CONNECTION_OPTIONS = {
     ldap.OPT_X_TLS_REQUIRE_CERT: ldap.OPT_X_TLS_NEVER,
     ldap.OPT_X_TLS_NEWCTX: 0,
 }
+AUTH_LDAP_USER_SEARCH_OU = env.str('AUTH_LDAP_USER_SEARCH_OU', default="ou=people")
 AUTH_LDAP_USER_SEARCH = LDAPSearch(
-    f"ou=people,{LDAP_DOMAIN}", ldap.SCOPE_SUBTREE, "(|(mail=%(user)s)(uid=%(user)s))"
+    f"{AUTH_LDAP_USER_SEARCH_OU},{LDAP_DOMAIN}", ldap.SCOPE_SUBTREE, "(|(mail=%(user)s)(uid=%(user)s))"
 )
 AUTH_LDAP_START_TLS = env.bool("AUTH_LDAP_START_TLS", default=True)
 AUTH_LDAP_BIND_DN = env.str("AUTH_LDAP_BIND_DN", default=f"cn=readonly,{LDAP_DOMAIN}")
